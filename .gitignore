@@ -3,3 +3,8 @@
 ################################################################################
 
 /StoreCatalog/StoreCatalog/bin/Debug/netcoreapp2.0
+/StoreCatalog/StoreCatalog/obj/Debug/netcoreapp2.0
+/StoreCatalog/StoreCatalog/obj
+/.vs
+/StoreCatalog/.vs/StoreCatalog/v15
+/StoreCatalog/StoreCatalog.Contract/obj
