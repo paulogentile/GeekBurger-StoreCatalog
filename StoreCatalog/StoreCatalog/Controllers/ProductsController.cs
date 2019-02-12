@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GeekBurguer.StoreCatalog.Contract;
+using GeekBurger.StoreCatalog.Contract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
 //teste
-namespace GeekBurguer.StoreCatalog.Controllers
+namespace GeekBurger.StoreCatalog.Controllers
 {
     [Produces("application/json")]
     [Route("api/products")]

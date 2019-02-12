@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace GeekBurguer.StoreCatalog
+namespace GeekBurger.StoreCatalog
 {
     public class Startup
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace GeekBurguer.StoreCatalog.Model
+namespace GeekBurger.StoreCatalog.Model
 {
     public class Store
     {

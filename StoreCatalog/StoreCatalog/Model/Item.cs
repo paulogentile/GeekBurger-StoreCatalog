@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GeekBurguer.StoreCatalog.Model
+namespace GeekBurger.StoreCatalog.Model
 {
     public class Item
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GeekBurguer.StoreCatalog.Contract
+namespace GeekBurger.StoreCatalog.Contract
 {
     public class ItemToGet
     {

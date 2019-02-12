@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StoreCatalog.Contract\GeekBurguer.StoreCatalog.Contract.csproj" />
+    <ProjectReference Include="..\StoreCatalog.Contract\GeekBurger.StoreCatalog.Contract.csproj" />
   </ItemGroup>
 
 </Project>

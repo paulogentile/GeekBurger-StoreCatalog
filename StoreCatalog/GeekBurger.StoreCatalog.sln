@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurguer.StoreCatalog", "StoreCatalog\GeekBurguer.StoreCatalog.csproj", "{C146D11B-71FA-4EB3-8F34-81DABCBFA96E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBurger.StoreCatalog", "StoreCatalog\GeekBurger.StoreCatalog.csproj", "{C146D11B-71FA-4EB3-8F34-81DABCBFA96E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeekBurguer.StoreCatalog.Contract", "StoreCatalog.Contract\GeekBurguer.StoreCatalog.Contract.csproj", "{8A067DEC-7C10-4EBE-81EA-2F82D964625A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeekBurger.StoreCatalog.Contract", "StoreCatalog.Contract\GeekBurger.StoreCatalog.Contract.csproj", "{8A067DEC-7C10-4EBE-81EA-2F82D964625A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

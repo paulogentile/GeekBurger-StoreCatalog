@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GeekBurguer.StoreCatalog.Contract
+namespace GeekBurger.StoreCatalog.Contract
 {
     public class UserWithLessOfferMessage
     {
