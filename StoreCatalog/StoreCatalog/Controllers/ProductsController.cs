@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GeekBurguer.StoreCatalog.Contract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,5 +12,12 @@ namespace GeekBurguer.StoreCatalog.Controllers
     [Route("api/products")]
     public class ProductsController : Controller
     {
+        [HttpGet]
+        public IActionResult GetProductsByStore(QueryProductByStore dados)
+        {
+            var a = new ProductByStoreToGet();
+
+            return Ok(a);
+        }
     }
 }
