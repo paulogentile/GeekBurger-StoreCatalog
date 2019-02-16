@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using GeekBurger.StoreCatalog.Helper;
+using GeekBurger.StoreCatalog.Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,11 +12,12 @@ namespace GeekBurger.StoreCatalog
     {
         public bool Healthy { get; set; } = false;
 
-        public HealthCheck()
+        public HealthCheck(IGetProducts getProducts)
         {
             //TODO: Pegar as Areas de Produção
 
             //TODO: Pegar os Produtos
+            var produtosOK = getProducts.RequestProducts();
 
             //TODO: Subscribe to ProductionAreaChanged
 
