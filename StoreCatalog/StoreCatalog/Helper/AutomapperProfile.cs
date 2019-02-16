@@ -14,7 +14,6 @@ namespace GeekBurger.StoreCatalog
         {
             CreateMap<Product, ProductByStoreToGet>();
             CreateMap<Item, ItemToGet>();
-            CreateMap<Store, StoreToGet>();
         }
     }
 }

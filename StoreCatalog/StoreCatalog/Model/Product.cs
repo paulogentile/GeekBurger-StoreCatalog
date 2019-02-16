@@ -7,8 +7,6 @@ namespace GeekBurger.StoreCatalog.Model
 {
     public class Product
     {
-        [ForeignKey("StoreId")]
-        public Store Store { get; set; }
         public Guid StoreId { get; set; }
 
         [Key]

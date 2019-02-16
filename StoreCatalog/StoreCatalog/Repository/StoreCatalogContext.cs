@@ -15,7 +15,6 @@ namespace GeekBurger.StoreCatalog.Repository
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Item> Items { get; set; }
-        public DbSet<Store> Stores { get; set; }
         public DbSet<Area> Areas { get; set; }
     }
 }
