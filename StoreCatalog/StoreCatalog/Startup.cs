@@ -41,22 +41,13 @@ namespace GeekBurger.StoreCatalog
                     {
                         Title = "Geek Burguer StoreCatalog",
                         Version = "v1",
-                        Description = "API que retorna os produos da loja local.",
+                        Description = "API que retorna os produtos da loja local.",
                         Contact = new Contact
                         {
                             Name = "Paulo Gentile",
                             Url = "https://github.com/paulogentile"
                         }
                     });
-
-                string caminhoAplicacao =
-                    PlatformServices.Default.Application.ApplicationBasePath;
-                string nomeAplicacao =
-                    PlatformServices.Default.Application.ApplicationName;
-                string caminhoXmlDoc =
-                    Path.Combine(caminhoAplicacao, $"{nomeAplicacao}.xml");
-
-                c.IncludeXmlComments(caminhoXmlDoc);
             });
         }
 
