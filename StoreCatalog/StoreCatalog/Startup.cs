@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GeekBurger.StoreCatalog.Helper;
 using GeekBurger.StoreCatalog.Repository;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -60,6 +61,7 @@ namespace GeekBurger.StoreCatalog
             services.AddDbContext<StoreCatalogContext>(o => o.UseInMemoryDatabase("geekburger-storecatalog"));
             services.AddScoped<IStoreCatalogRepository, StoreCatalogRepository>();
 
+            services.AddScoped<IGetProducts, GetProducts>();
             services.AddSingleton<IHealthCheck, HealthCheck>();
         }
 
@@ -71,7 +73,7 @@ namespace GeekBurger.StoreCatalog
                 app.UseDeveloperExceptionPage();
             }
 
-            context.Seed();
+            //context.Seed();
 
             app.UseMvc();
 
