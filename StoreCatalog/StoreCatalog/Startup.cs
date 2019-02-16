@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using GeekBurger.StoreCatalog.Repository;
+using GeekBurger.StoreCatalog.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,12 +20,12 @@ namespace GeekBurger.StoreCatalog
 {
     public class Startup
     {
+        public static IConfiguration Configuration { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -49,15 +53,25 @@ namespace GeekBurger.StoreCatalog
                         }
                     });
             });
+
+            services.AddAutoMapper();
+
+            // Configura Banco de Dados em Memoria
+            services.AddDbContext<StoreCatalogContext>(o => o.UseInMemoryDatabase("geekburger-storecatalog"));
+            services.AddScoped<IStoreCatalogRepository, StoreCatalogRepository>();
+
+            services.AddSingleton<IHealthCheck, HealthCheck>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, StoreCatalogContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            context.Seed();
 
             app.UseMvc();
 
