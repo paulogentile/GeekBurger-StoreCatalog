@@ -31,6 +31,7 @@ namespace GeekBurger.StoreCatalog.Service
         {
             _mapper = mapper;
             _configuration = configuration;
+
             _logService = logService;
             _messages = new List<Message>();
             _namespace = _configuration.GetServiceBusNamespace();
@@ -54,8 +55,10 @@ namespace GeekBurger.StoreCatalog.Service
                     && entity.State != EntityState.Unchanged).Select(GetMessage).ToList());
         }
 
-        public Message GetMessage(EntityEntry<Store> entity)
+        public Message GetMessage(EntityEntry<StoreToGet> entity)
         {
+            var storeId = _configuration.GetSection("Store:Id").Get<Guid>();
+
             var storeCatologReady = Mapper.Map<StoreCatalogReadyMessage>(entity);
             var storeCatologReadySerialized = JsonConvert.SerializeObject(storeCatologReady);
             var storeCatologReadyByteArray = Encoding.UTF8.GetBytes(storeCatologReadySerialized);
@@ -64,7 +67,7 @@ namespace GeekBurger.StoreCatalog.Service
             {
                 Body = storeCatologReadyByteArray,
                 MessageId = Guid.NewGuid().ToString(),
-                Label = storeCatologReady.StoreId.ToString()
+                Label = storeId.ToString()
             };
         }
 
