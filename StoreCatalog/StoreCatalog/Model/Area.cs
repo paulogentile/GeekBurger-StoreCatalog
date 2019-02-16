@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GeekBurger.StoreCatalog.Model
@@ -10,7 +11,7 @@ namespace GeekBurger.StoreCatalog.Model
 
         public Guid ProductionId { get; set; }
 
-        public string[] Restrictions { get; set; }
+        public ICollection<Restrictions> Restrictions { get; set; } = new List<Restrictions>();
 
         public bool On { get; set; }
     }
