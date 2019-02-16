@@ -12,6 +12,10 @@ namespace GeekBurger.StoreCatalog.Controllers
     [Route("api/store")]
     public class StoreController : Controller
     {
+        /// <summary>
+        /// Método que checa se a produção está pronta
+        /// </summary>
+        /// <returns>Retorna se a loja está pronta para produção</returns>
         [HttpGet]
         public IActionResult GetStore()
         {
