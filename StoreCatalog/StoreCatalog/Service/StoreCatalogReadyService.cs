@@ -48,11 +48,11 @@ namespace GeekBurger.StoreCatalog.Service
 
         }
 
-        public void AddToMessageList(IEnumerable<EntityEntry<Store>> changes)
+        public void AddToMessageList(IEnumerable<EntityEntry<string>> changes)
         {
-            _messages.AddRange(changes
-            .Where(entity => entity.State != EntityState.Detached
-                    && entity.State != EntityState.Unchanged).Select(GetMessage).ToList());
+            //_messages.AddRange(changes
+            //.Where(entity => entity.State != EntityState.Detached
+            //        && entity.State != EntityState.Unchanged).Select(GetMessage).ToList());
         }
 
         public Message GetMessage(EntityEntry<StoreToGet> entity)

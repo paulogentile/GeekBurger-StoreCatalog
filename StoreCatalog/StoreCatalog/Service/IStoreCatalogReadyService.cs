@@ -10,6 +10,6 @@ namespace GeekBurger.StoreCatalog.Service
     public interface IStoreCatalogReadyService
     {
         void SendMessagesAsync();
-        void AddToMessageList(IEnumerable<EntityEntry<Store>> changes);
+        void AddToMessageList(IEnumerable<EntityEntry<string>> changes);
     }
 }
