@@ -7,6 +7,7 @@ using AutoMapper;
 using GeekBurger.StoreCatalog.Helper;
 using GeekBurger.StoreCatalog.Repository;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
+using GeekBurger.StoreCatalog.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -62,8 +63,13 @@ namespace GeekBurger.StoreCatalog
 
             services.AddScoped<IStoreCatalogRepository, StoreCatalogRepository>();
 
-            services.AddScoped<IAppInnit, AppInnit>();
+            services.AddScoped<ILogService, LogService>();
+            services.AddScoped<IStoreCatalogReadyService, StoreCatalogReadyService>();
             services.AddScoped<IGetProducts, GetProducts>();
+            services.AddScoped<IGetProductions, GetProductions>();
+
+            services.AddScoped<IAppInnit, AppInnit>();
+
 
             services.AddSingleton<IHealthCheck, HealthCheck>();
         }

@@ -43,14 +43,14 @@ namespace GeekBurger.StoreCatalog.Service
 
         }
 
-        public async void SendCatalogReady()
+        public async void SendCatalogReady(bool ready)
         {
             var storeId = _configuration.GetSection("Store:Id").Get<Guid>();
 
             var config = _configuration.GetSection("serviceBus").Get<ServiceBusConfiguration>();
             var topicClient = new TopicClient(config.ConnectionString, Topic);
 
-            var storeCatologReadySerialized = JsonConvert.SerializeObject(new StoreCatalogReadyMessage { StoreId = storeId, Ready = true });
+            var storeCatologReadySerialized = JsonConvert.SerializeObject(new StoreCatalogReadyMessage { StoreId = storeId, Ready = ready });
             var storeCatologReadyByteArray = Encoding.UTF8.GetBytes(storeCatologReadySerialized);
 
             var message = new Message

@@ -26,22 +26,18 @@ namespace GeekBurger.StoreCatalog.Helper
 
         public async Task<bool> RequestProductions()
         {
-            var url = _configuration.GetSection("Apis:Products").Get<string>();
-            var storeName = _configuration.GetSection("Store:Name").Get<string>();
+            var url = _configuration.GetSection("Apis:Production").Get<string>();
 
             var client = new HttpClient();
 
-            var response = await client.GetAsync(new Uri($"{url}?storeName={storeName}"));
+            var response = await client.GetAsync(new Uri(url));
             if (response.IsSuccessStatusCode)
             {
                 var responseText = await response.Content.ReadAsStringAsync();
 
-                var productions = JsonConvert.DeserializeObject<List<ProductionToGet>>(responseText);
+                var production = JsonConvert.DeserializeObject<ProductionToGet>(responseText);
 
-                foreach (var production in productions)
-                {
-                    _storeCatalogRepository.UpsertProduction(production);
-                }
+                _storeCatalogRepository.UpsertProduction(production);
 
                 return true;
             }
