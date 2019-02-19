@@ -1,17 +1,13 @@
-﻿//using GeekBurger.StoreCatalog.Repository;
-using AutoMapper;
+﻿using AutoMapper;
 using GeekBurger.StoreCatalog.Contract;
 using Microsoft.Azure.Management.ServiceBus.Fluent;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 
