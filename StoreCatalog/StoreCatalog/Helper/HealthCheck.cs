@@ -12,12 +12,12 @@ namespace GeekBurger.StoreCatalog
     {
         public bool Healthy { get; set; } = false;
 
-        public HealthCheck(IGetProducts getProducts)
+        public HealthCheck(IGetProducts gp)
         {
             //TODO: Pegar as Areas de Produção
 
             //TODO: Pegar os Produtos
-            var produtosOK = getProducts.RequestProducts();
+            gp.RequestProducts();
 
             //TODO: Subscribe to ProductionAreaChanged
 

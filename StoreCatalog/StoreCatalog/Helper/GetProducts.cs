@@ -3,6 +3,7 @@ using GeekBurger.Products.Contract;
 using GeekBurger.StoreCatalog.Model;
 using GeekBurger.StoreCatalog.Repository;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -34,7 +35,7 @@ namespace GeekBurger.StoreCatalog.Helper
 
             var client = new HttpClient();
 
-            var response = await client.GetAsync(new Uri($"{url}?storeName={storeName}"));
+            var response = await client.GetAsync(new Uri($"https://{url}?storeName={storeName}"));
             if (response.IsSuccessStatusCode)
             {
                 var responseText = await response.Content.ReadAsStringAsync();

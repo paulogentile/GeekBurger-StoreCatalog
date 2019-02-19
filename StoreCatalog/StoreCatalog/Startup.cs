@@ -59,14 +59,17 @@ namespace GeekBurger.StoreCatalog
 
             // Configura Banco de Dados em Memoria
             services.AddDbContext<StoreCatalogContext>(o => o.UseInMemoryDatabase("geekburger-storecatalog"));
+
             services.AddScoped<IStoreCatalogRepository, StoreCatalogRepository>();
 
-            services.AddScoped<IGetProducts, GetProducts>();
             services.AddSingleton<IHealthCheck, HealthCheck>();
+
+            services.AddScoped<IGetProducts, GetProducts>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, StoreCatalogContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IGetProducts gp)
         {
             if (env.IsDevelopment())
             {
@@ -84,6 +87,8 @@ namespace GeekBurger.StoreCatalog
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
                     "Geek Burguer StoreCatalog");
             });
+
+            gp.RequestProducts().Wait();
         }
     }
 }
