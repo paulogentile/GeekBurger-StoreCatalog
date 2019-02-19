@@ -15,6 +15,6 @@ namespace GeekBurger.StoreCatalog.Model
         public string Image { get; set; }
         public decimal Price { get; set; }
 
-        public ICollection<Item> Ingredients { get; set; } = new List<Item>();
+        public ICollection<Item> Items { get; set; } = new List<Item>();
     }
 }

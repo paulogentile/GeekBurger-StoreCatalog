@@ -62,14 +62,14 @@ namespace GeekBurger.StoreCatalog
 
             services.AddScoped<IStoreCatalogRepository, StoreCatalogRepository>();
 
-            services.AddSingleton<IHealthCheck, HealthCheck>();
-
+            services.AddScoped<IAppInnit, AppInnit>();
             services.AddScoped<IGetProducts, GetProducts>();
 
+            services.AddSingleton<IHealthCheck, HealthCheck>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IGetProducts gp)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAppInnit appInnit)
         {
             if (env.IsDevelopment())
             {
@@ -88,7 +88,7 @@ namespace GeekBurger.StoreCatalog
                     "Geek Burguer StoreCatalog");
             });
 
-            gp.RequestProducts().Wait();
+            appInnit.run();
         }
     }
 }

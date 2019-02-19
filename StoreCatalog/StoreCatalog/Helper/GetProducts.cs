@@ -35,7 +35,7 @@ namespace GeekBurger.StoreCatalog.Helper
 
             var client = new HttpClient();
 
-            var response = await client.GetAsync(new Uri($"https://{url}?storeName={storeName}"));
+            var response = await client.GetAsync(new Uri($"{url}?storeName={storeName}"));
             if (response.IsSuccessStatusCode)
             {
                 var responseText = await response.Content.ReadAsStringAsync();
@@ -44,9 +44,7 @@ namespace GeekBurger.StoreCatalog.Helper
 
                 foreach (var produto in produtos)
                 {
-                    var productToGet = _mapper.Map<ProductToGet>(produto);
-
-                    _storeCatalogRepository.UpsertProduct(productToGet);
+                    _storeCatalogRepository.UpsertProduct(produto);
                 }
 
                 return true;
