@@ -10,9 +10,9 @@ namespace GeekBurger.StoreCatalog.Repository.Interfaces
 {
     public interface IStoreCatalogRepository
     {
-        IEnumerable<Product> GetProducts();
-        IEnumerable<Product> GetProductsByRestrictions(List<Item> restrictions);
+        IEnumerable<Product> GetProductsByRestrictions(string[] restrictions);
         void UpsertProduct(ProductToGet product);
         void UpsertProduction(ProductionToGet production);
+        IQueryable<Area> GetAreas();
     }
 }

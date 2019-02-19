@@ -31,7 +31,6 @@ namespace GeekBurger.StoreCatalog.Service
         {
             _mapper = mapper;
             _configuration = configuration;
-
             _logService = logService;
             _messages = new List<Message>();
             _namespace = _configuration.GetServiceBusNamespace();
@@ -48,72 +47,35 @@ namespace GeekBurger.StoreCatalog.Service
 
         }
 
-        public void AddToMessageList(IEnumerable<EntityEntry<string>> changes)
-        {
-            //_messages.AddRange(changes
-            //.Where(entity => entity.State != EntityState.Detached
-            //        && entity.State != EntityState.Unchanged).Select(GetMessage).ToList());
-        }
-
-        public Message GetMessage(EntityEntry<StoreToGet> entity)
+        public async void SendCatalogReady()
         {
             var storeId = _configuration.GetSection("Store:Id").Get<Guid>();
 
-            var storeCatologReady = Mapper.Map<StoreCatalogReadyMessage>(entity);
-            var storeCatologReadySerialized = JsonConvert.SerializeObject(storeCatologReady);
+            var config = _configuration.GetSection("serviceBus").Get<ServiceBusConfiguration>();
+            var topicClient = new TopicClient(config.ConnectionString, Topic);
+
+            var storeCatologReadySerialized = JsonConvert.SerializeObject(new StoreCatalogReadyMessage { StoreId = storeId, Ready = true });
             var storeCatologReadyByteArray = Encoding.UTF8.GetBytes(storeCatologReadySerialized);
 
-            return new Message
+            var message = new Message
             {
                 Body = storeCatologReadyByteArray,
                 MessageId = Guid.NewGuid().ToString(),
                 Label = storeId.ToString()
             };
-        }
 
-        public async void SendMessagesAsync()
-        {
-            if (_lastTask != null && !_lastTask.IsCompleted)
-                return;
+            await topicClient.SendAsync(message);
 
-            var config = _configuration.GetSection("serviceBus").Get<ServiceBusConfiguration>();
-            var topicClient = new TopicClient(config.ConnectionString, Topic);
+            //_logService.SendMessagesAsync("true");
 
-            _logService.SendMessagesAsync("True");
+            //SendAsync(topicClient);
 
-            _lastTask = SendAsync(topicClient);
-
-            await _lastTask;
+            //await _lastTask;
 
             var closeTask = topicClient.CloseAsync();
             await closeTask;
             HandleException(closeTask);
-        }
-
-        public async Task SendAsync(TopicClient topicClient)
-        {
-            int tries = 0;
-            Message message;
-            while (true)
-            {
-                if (_messages.Count <= 0)
-                    break;
-
-                lock (_messages)
-                {
-                    message = _messages.FirstOrDefault();
-                }
-
-                var sendTask = topicClient.SendAsync(message);
-                await sendTask;
-                var success = HandleException(sendTask);
-
-                if (!success)
-                    Thread.Sleep(10000 * (tries < 60 ? tries++ : tries));
-                else
-                    _messages.Remove(message);
-            }
-        }
+        }      
 
         public bool HandleException(Task task)
         {
