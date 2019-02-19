@@ -44,6 +44,8 @@ namespace GeekBurger.StoreCatalog.Repository
             p.Ingredients.Clear();
             foreach (var item in product.Items)
                 p.Ingredients.Add(new Item { ItemId = item.ItemId, Name = item.Name });
+
+            _context.SaveChanges();
         }
 
         public void UpsertProduction(ProductionToGet production)
@@ -62,6 +64,8 @@ namespace GeekBurger.StoreCatalog.Repository
             p.Restrictions.Clear();
             foreach (var item in production.Restrictions)
                 p.Restrictions.Add(new Restrictions { Name = item });
+
+            _context.SaveChanges();
         }
 
         public IQueryable<Area> GetAreas()
