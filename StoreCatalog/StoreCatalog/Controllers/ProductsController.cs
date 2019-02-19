@@ -1,12 +1,10 @@
 ﻿using GeekBurger.StoreCatalog.Contract;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
+using GeekBurger.StoreCatalog.Service.UserWithLessOffer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Linq;
 
-
-//teste
 namespace GeekBurger.StoreCatalog.Controllers
 {
     public class ProductsController : Controller
@@ -14,12 +12,14 @@ namespace GeekBurger.StoreCatalog.Controllers
         private IHealthCheck _healthCheck;
         private IConfiguration _configuration;
         private IStoreCatalogRepository _storeCatalogRepository;
+        private IUserWithLessOffer _userWithLessOffer;
 
-        public ProductsController(IConfiguration configuration, IHealthCheck healthCheck, IStoreCatalogRepository storeCatalogRepository)
+        public ProductsController(IConfiguration configuration, IHealthCheck healthCheck, IStoreCatalogRepository storeCatalogRepository, IUserWithLessOffer userWithLessOffer)
         {
             _configuration = configuration;
             _healthCheck = healthCheck;
             _storeCatalogRepository = storeCatalogRepository;
+            _userWithLessOffer = userWithLessOffer;
         }
 
         /// <summary>
@@ -47,10 +47,9 @@ namespace GeekBurger.StoreCatalog.Controllers
                     //all ingredients from this product are not in the restriction list of at least one allowed area
                     .Ingredients.All(ingredient => allowedAreas.Any(area => !area.Restrictions.Any(c => c.Name.Contains(ingredient.Name)))));
 
-                // Envia a mensagem UserWithLessOffer
+                // Envia a mensagem UserWithLessOffer se o usuário tiver menos de 4 resultados
                 if (allowedProducts.Count() < 4)
-                {
-                }
+                    _userWithLessOffer.SendUserWithLessOffer(query.UserId, query.Restrictions);
 
                 return Ok(allowedProducts.Select(p => new ProductByStoreToGet
                 {
