@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GeekBurger.StoreCatalog.Contract;
-using Microsoft.AspNetCore.Http;
+﻿using GeekBurger.StoreCatalog.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace GeekBurger.StoreCatalog.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/store")]
     public class StoreController : Controller
     {
         private IConfiguration _configuration;
@@ -26,19 +20,23 @@ namespace GeekBurger.StoreCatalog.Controllers
         /// Método que checa se a produção está pronta
         /// </summary>
         /// <returns>Retorna se a loja está pronta para produção</returns>
-        /// 
+        [Produces("application/json")]
+        [Route("api/store")]
         [HttpGet]
         public IActionResult GetStore()
         {
             var storeID = _configuration.GetSection("Store:Id").Get<Guid>();
 
-            var a = new StoreToGet
+            if (_healthCheck.Healthy)
             {
-                StoreId = storeID,
-                Ready = _healthCheck.Healthy
-            };
-
-            return Ok(a);
+                return Ok(new StoreToGet
+                {
+                    StoreId = storeID,
+                    Ready = _healthCheck.Healthy
+                });
+            }
+            else
+                return StatusCode(503);
         }
     }
 }
