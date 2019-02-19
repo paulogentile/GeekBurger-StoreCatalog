@@ -38,7 +38,7 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
             _repository = new StoreCatalogRepository(context, configuration);           
         }
 
-        public async void SendCatalogReady()
+        public async void GetProductChanged()
         {
             _configuration = new ConfigurationBuilder()
                .SetBasePath(Directory.GetCurrentDirectory())

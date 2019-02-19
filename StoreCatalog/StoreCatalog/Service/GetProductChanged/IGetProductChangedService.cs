@@ -7,6 +7,6 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
 {
     public interface IGetProductChangedService
     {
-
+        void GetProductChanged();
     }
 }
