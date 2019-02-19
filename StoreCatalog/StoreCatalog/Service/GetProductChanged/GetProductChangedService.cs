@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using GeekBurger.Products.Contract;
 using GeekBurger.StoreCatalog.Contract;
 using GeekBurger.StoreCatalog.Model;
+using GeekBurger.StoreCatalog.Repository;
 //using GeekBurger.StoreCatalog.Repository;
 using Microsoft.Azure.Management.ServiceBus.Fluent;
 using Microsoft.Azure.ServiceBus;
@@ -26,23 +28,15 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
         private static ServiceBusConfiguration serviceBusConfiguration;
         private static string _storeId;
         private const string SubscriptionName = "Los Angeles - Beverly Hills";
-        //private IMapper _mapper;
-        //private List<Message> _messages;
-        //private Task _lastTask;
-        //private IServiceBusNamespace _namespace;
-        //private ILogService _logService;
+        private static StoreCatalogContext _context;
+        private static StoreCatalogRepository _repository;
 
-
-        public GetProductChangedService(IMapper mapper, IConfiguration configuration, ILogService logService)
+        public GetProductChangedService(IConfiguration configuration, StoreCatalogContext context)
         {
-            _mapper = mapper;
             _configuration = configuration;
-            _logService = logService;
-            _messages = new List<Message>();
-            _namespace = _configuration.GetServiceBusNamespace();
-            EnsureTopicIsCreated();
+            _context = context;
+            _repository = new StoreCatalogRepository(context, configuration);           
         }
-
 
         public async void SendCatalogReady()
         {
@@ -90,16 +84,15 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
         private static Task Handle(Message message, CancellationToken arg2)
         {           
             var productChangesString = Encoding.UTF8.GetString(message.Body);
-            var productChangesJson = JsonConvert.DeserializeObject<ProductByStoreToGet>(productChangesString);
-            
+            var productChangesJson = JsonConvert.DeserializeObject<ProductToGet>(productChangesString);
+            _repository.UpsertProduct(productChangesJson);
+
             return Task.CompletedTask;
         }
 
         private static Task ExceptionHandle(ExceptionReceivedEventArgs arg)
-        {
-            //Console.WriteLine($"Message handler encountered an exception {arg.Exception}.");
-            var context = arg.ExceptionReceivedContext;
-            //Console.WriteLine($"- Endpoint: {context.Endpoint}, Path: {context.EntityPath}, Action: {context.Action}");
+        {           
+            var context = arg.ExceptionReceivedContext;            
             return Task.CompletedTask;
         }
 
