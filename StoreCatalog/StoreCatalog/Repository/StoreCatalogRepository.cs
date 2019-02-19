@@ -17,7 +17,7 @@ namespace GeekBurger.StoreCatalog.Repository
             _context = context;
         }
 
-        public IEnumerable<Product> GetProductsByRestrictions(List<Item> restrictions)
+        public IEnumerable<Product> GetProductsByRestrictions(string[] restrictions)
         {
             throw new NotImplementedException();
         }
@@ -30,6 +30,11 @@ namespace GeekBurger.StoreCatalog.Repository
         public void UpsertProduction(ProductionToGet production)
         {
             throw new NotImplementedException();
+        }
+
+        public IQueryable<Area> GetAreas()
+        {
+            return _context.Areas;
         }
     }
 }
