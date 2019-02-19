@@ -11,21 +11,5 @@ namespace GeekBurger.StoreCatalog
     public class HealthCheck : IHealthCheck
     {
         public bool Healthy { get; set; } = false;
-
-        public HealthCheck(IGetProducts getProducts)
-        {
-            //TODO: Pegar as Areas de Produção
-
-            //TODO: Pegar os Produtos
-            var produtosOK = getProducts.RequestProducts();
-
-            //TODO: Subscribe to ProductionAreaChanged
-
-            //TODO: Subscribe to ProductChanged
-
-            //TODO: Publish StoreCatalogReady
-
-            Healthy = true;
-        }
     }
 }

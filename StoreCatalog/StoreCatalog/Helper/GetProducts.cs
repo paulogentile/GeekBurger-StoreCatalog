@@ -3,6 +3,7 @@ using GeekBurger.Products.Contract;
 using GeekBurger.StoreCatalog.Model;
 using GeekBurger.StoreCatalog.Repository;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -43,9 +44,7 @@ namespace GeekBurger.StoreCatalog.Helper
 
                 foreach (var produto in produtos)
                 {
-                    var productToGet = _mapper.Map<ProductToGet>(produto);
-
-                    _storeCatalogRepository.UpsertProduct(productToGet);
+                    _storeCatalogRepository.UpsertProduct(produto);
                 }
 
                 return true;
