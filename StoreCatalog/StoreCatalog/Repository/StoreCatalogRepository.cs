@@ -33,7 +33,7 @@ namespace GeekBurger.StoreCatalog.Repository
                 p = new Product();
                 _context.Products.Add(p);
 
-                p.ProductId = new Guid();
+                p.ProductId = product.ProductId;
                 p.StoreId = _configuration.GetSection("Store:Id").Get<Guid>();
             }
 
@@ -56,7 +56,7 @@ namespace GeekBurger.StoreCatalog.Repository
                 p = new Area();
                 _context.Areas.Add(p);
 
-                p.AreaId = new Guid();
+                p.AreaId = production.ProductionId;
             }
 
             p.On = production.On == true;

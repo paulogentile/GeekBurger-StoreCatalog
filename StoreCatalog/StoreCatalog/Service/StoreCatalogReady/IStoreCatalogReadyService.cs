@@ -11,6 +11,6 @@ namespace GeekBurger.StoreCatalog.Service
 {
     public interface IStoreCatalogReadyService
     {
-        void SendCatalogReady();       
+        void SendCatalogReady(bool ready);       
     }
 }
