@@ -8,6 +8,7 @@ using GeekBurger.StoreCatalog.Helper;
 using GeekBurger.StoreCatalog.Repository;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
 using GeekBurger.StoreCatalog.Service;
+using GeekBurger.StoreCatalog.Service.UserWithLessOffer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -69,6 +70,8 @@ namespace GeekBurger.StoreCatalog
             services.AddScoped<IGetProductions, GetProductions>();
 
             services.AddScoped<IAppInnit, AppInnit>();
+
+            services.AddScoped<IUserWithLessOffer, UserWithLessOffer>();
 
 
             services.AddSingleton<IHealthCheck, HealthCheck>();

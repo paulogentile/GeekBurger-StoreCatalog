@@ -2,6 +2,7 @@
 using GeekBurger.Products.Contract;
 using GeekBurger.StoreCatalog.Model;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace GeekBurger.StoreCatalog.Repository
 
         public IEnumerable<Product> GetProductsByRestrictions(string[] restrictions)
         {
-            return _context.Products.Where(p => !p.Ingredients.Any(c => restrictions.Contains(c.Name)));
+            return _context.Products.Include(p => p.Ingredients).Where(p => !p.Ingredients.Any(c => restrictions.Contains(c.Name)));
         }
 
         public void UpsertProduct(ProductToGet product)
@@ -70,7 +71,7 @@ namespace GeekBurger.StoreCatalog.Repository
 
         public IQueryable<Area> GetAreas()
         {
-            return _context.Areas;
+            return _context.Areas.Include(p => p.Restrictions);
         }
     }
 }
