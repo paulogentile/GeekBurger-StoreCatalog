@@ -8,6 +8,8 @@ using GeekBurger.StoreCatalog.Helper;
 using GeekBurger.StoreCatalog.Repository;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
 using GeekBurger.StoreCatalog.Service;
+using GeekBurger.StoreCatalog.Service.GetProductChanged;
+using GeekBurger.StoreCatalog.Service.GetProductionAreaChanged;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -62,16 +64,16 @@ namespace GeekBurger.StoreCatalog
             services.AddDbContext<StoreCatalogContext>(o => o.UseInMemoryDatabase("geekburger-storecatalog"));
 
             services.AddScoped<IStoreCatalogRepository, StoreCatalogRepository>();
-
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<IStoreCatalogReadyService, StoreCatalogReadyService>();
             services.AddScoped<IGetProducts, GetProducts>();
             services.AddScoped<IGetProductions, GetProductions>();
-
             services.AddScoped<IAppInnit, AppInnit>();
 
-
             services.AddSingleton<IHealthCheck, HealthCheck>();
+
+            services.AddSingleton<IGetProductChangedService, GetProductChangedService>();
+            services.AddSingleton<IGetProductionAreaChangedService, GetProductionAreaChangedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

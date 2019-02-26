@@ -1,8 +1,10 @@
 ﻿using GeekBurger.Products.Contract;
 using GeekBurger.StoreCatalog.Repository;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
@@ -18,16 +20,11 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
         private const string TopicName = "ProductChanged";
         private static IConfiguration _configuration;
         private static ServiceBusConfiguration serviceBusConfiguration;
-        private static string _storeId;
-        private const string SubscriptionName = "Los Angeles - Beverly Hills";
-        private static StoreCatalogContext _context;
-        private static StoreCatalogRepository _repository;
+        private const string SubscriptionName = "StoreCatalog";
 
-        public GetProductChangedService(IConfiguration configuration, StoreCatalogContext context)
+        public GetProductChangedService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _context = context;
-            _repository = new StoreCatalogRepository(context, configuration);           
         }
 
         public async void GetProductChanged()
@@ -53,6 +50,10 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
                     .Create();
 
             ReceiveMessages();
+
+
+
+            
         }
 
         private static async void ReceiveMessages()
@@ -62,9 +63,10 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
             //by default a 1=1 rule is added when subscription is created, so we need to remove it
             await subscriptionClient.RemoveRuleAsync("$Default");
 
+            var storeID = _configuration.GetSection("Store:Id").Get<string>();
             await subscriptionClient.AddRuleAsync(new RuleDescription
             {
-                Filter = new CorrelationFilter { Label = _storeId },
+                Filter = new CorrelationFilter { Label = storeID },
                 Name = "filter-store"
             });
 
@@ -75,9 +77,21 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
 
         private static Task Handle(Message message, CancellationToken arg2)
         {           
-            var productChangesString = Encoding.UTF8.GetString(message.Body);
-            var productChangesJson = JsonConvert.DeserializeObject<ProductToGet>(productChangesString);
-            _repository.UpsertProduct(productChangesJson);
+            var productChangedString = Encoding.UTF8.GetString(message.Body);
+            var parsedObject = JObject.Parse(productChangedString);
+            var productJson = parsedObject["Product"].ToString();
+
+            var productChangesJson = JsonConvert.DeserializeObject<ProductToGet>(productJson);
+
+            var optionsBuilder = new DbContextOptionsBuilder<StoreCatalogContext>();
+            optionsBuilder.UseInMemoryDatabase("geekburger-storecatalog");
+            using (var db = new StoreCatalogContext(optionsBuilder.Options))
+            {
+                var teste = db.Products.Count();
+
+                var sc = new StoreCatalogRepository(db, _configuration);
+                sc.UpsertProduct(productChangesJson);
+            }
 
             return Task.CompletedTask;
         }

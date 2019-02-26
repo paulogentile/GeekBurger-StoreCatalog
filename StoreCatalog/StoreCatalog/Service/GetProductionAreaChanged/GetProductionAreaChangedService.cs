@@ -1,6 +1,7 @@
 ﻿using GeekBurger.Production.Contract;
 using GeekBurger.StoreCatalog.Repository;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -18,16 +19,11 @@ namespace GeekBurger.StoreCatalog.Service.GetProductionAreaChanged
         private const string TopicName = "ProductionAreaChanged";
         private static IConfiguration _configuration;
         private static ServiceBusConfiguration serviceBusConfiguration;
-        private static string _storeId;
-        private const string SubscriptionName = "Los Angeles - Beverly Hills";
-        private static StoreCatalogContext _context;
-        private static StoreCatalogRepository _repository;
+        private const string SubscriptionName = "StoreCatalog";
 
-        public GetProductionAreaChangedService(IConfiguration configuration, StoreCatalogContext context)
+        public GetProductionAreaChangedService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _context = context;
-            _repository = new StoreCatalogRepository(context, configuration);
         }
 
         public async void GetProductionAreaChanged()
@@ -62,9 +58,10 @@ namespace GeekBurger.StoreCatalog.Service.GetProductionAreaChanged
             //by default a 1=1 rule is added when subscription is created, so we need to remove it
             await subscriptionClient.RemoveRuleAsync("$Default");
 
+            var storeID = _configuration.GetSection("Store:Id").Get<string>();
             await subscriptionClient.AddRuleAsync(new RuleDescription
             {
-                Filter = new CorrelationFilter { Label = _storeId },
+                Filter = new CorrelationFilter { Label = storeID },
                 Name = "filter-store"
             });
 
@@ -77,7 +74,14 @@ namespace GeekBurger.StoreCatalog.Service.GetProductionAreaChanged
         {
             var productionChangedString = Encoding.UTF8.GetString(message.Body);
             var productionChangedJson = JsonConvert.DeserializeObject<ProductionToGet>(productionChangedString);
-            _repository.UpsertProduction(productionChangedJson);
+
+            var optionsBuilder = new DbContextOptionsBuilder<StoreCatalogContext>();
+            optionsBuilder.UseInMemoryDatabase("geekburger-storecatalog");
+            using (var db = new StoreCatalogContext(optionsBuilder.Options))
+            {
+                var sc = new StoreCatalogRepository(db, _configuration);
+                sc.UpsertProduction(productionChangedJson);
+            }
 
             return Task.CompletedTask;
         }
