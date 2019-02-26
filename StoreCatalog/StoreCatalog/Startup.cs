@@ -72,11 +72,13 @@ namespace GeekBurger.StoreCatalog
             services.AddScoped<IStoreCatalogReadyService, StoreCatalogReadyService>();
             services.AddScoped<IGetProducts, GetProducts>();
             services.AddScoped<IGetProductions, GetProductions>();
-            services.AddScoped<IAppInnit, AppInnit>();
             services.AddScoped<IUserWithLessOffer, UserWithLessOffer>();
-
-
+            
             services.AddSingleton<IHealthCheck, HealthCheck>();
+            services.AddSingleton<IGetProductChangedService, GetProductChangedService>();
+            services.AddSingleton<IGetProductionAreaChangedService, GetProductionAreaChangedService>();
+
+            services.AddScoped<IAppInnit, AppInnit>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
