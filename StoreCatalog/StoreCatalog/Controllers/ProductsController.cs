@@ -14,7 +14,11 @@ namespace GeekBurger.StoreCatalog.Controllers
         private IStoreCatalogRepository _storeCatalogRepository;
         private IUserWithLessOffer _userWithLessOffer;
 
-        public ProductsController(IConfiguration configuration, IHealthCheck healthCheck, IStoreCatalogRepository storeCatalogRepository, IUserWithLessOffer userWithLessOffer)
+        public ProductsController(
+            IConfiguration configuration, 
+            IHealthCheck healthCheck, 
+            IStoreCatalogRepository storeCatalogRepository, 
+            IUserWithLessOffer userWithLessOffer)
         {
             _configuration = configuration;
             _healthCheck = healthCheck;

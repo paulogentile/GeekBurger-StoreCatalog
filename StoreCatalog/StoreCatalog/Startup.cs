@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using GeekBurger.StoreCatalog.Controllers;
 using GeekBurger.StoreCatalog.Helper;
 using GeekBurger.StoreCatalog.Repository;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
@@ -73,8 +74,9 @@ namespace GeekBurger.StoreCatalog
 
             services.AddScoped<IUserWithLessOffer, UserWithLessOffer>();
 
-
             services.AddSingleton<IHealthCheck, HealthCheck>();
+
+            services.AddPollyPolicies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
