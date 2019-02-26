@@ -78,6 +78,7 @@ namespace GeekBurger.StoreCatalog
             services.AddSingleton<IGetProductChangedService, GetProductChangedService>();
             services.AddSingleton<IGetProductionAreaChangedService, GetProductionAreaChangedService>();
 
+            services.AddPollyPolicies();
             services.AddScoped<IAppInnit, AppInnit>();
         }
 
