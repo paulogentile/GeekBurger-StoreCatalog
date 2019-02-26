@@ -75,7 +75,8 @@ namespace GeekBurger.StoreCatalog
             services.AddScoped<IGetProducts, GetProducts>();
             services.AddScoped<IGetProductions, GetProductions>();
             services.AddScoped<IUserWithLessOffer, UserWithLessOffer>();
-            
+            services.AddScoped<IAppInnit, AppInnit>();
+
             services.AddSingleton<IHealthCheck, HealthCheck>();
             services.AddSingleton<IGetProductChangedService, GetProductChangedService>();
             services.AddSingleton<IGetProductionAreaChangedService, GetProductionAreaChangedService>();

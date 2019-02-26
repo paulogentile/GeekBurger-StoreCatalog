@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "70b56221e22fb5d4afc1236aec33fe283ef4d789"
+    "signature": "25bf99d37837f94a5945ade8a1111f23201c8dff"
   },
   "compilationOptions": {
     "defines": [
@@ -33,8 +33,10 @@
           "Microsoft.Azure.Management.ServiceBus.Fluent": "1.19.0",
           "Microsoft.Azure.ServiceBus": "3.3.0",
           "Microsoft.EntityFrameworkCore.InMemory": "2.2.2",
+          "Microsoft.Extensions.Http.Polly": "2.2.0",
           "Microsoft.NETCore.App": "2.0.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.0.3",
+          "Polly": "7.0.3",
           "Swashbuckle.AspNetCore": "4.0.1"
         },
         "runtime": {
@@ -2119,6 +2121,32 @@
           "lib/netstandard2.0/Microsoft.Extensions.Hosting.Abstractions.dll": {}
         }
       },
+      "Microsoft.Extensions.Http/2.2.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.2.0",
+          "Microsoft.Extensions.Logging": "2.2.0",
+          "Microsoft.Extensions.Options": "2.2.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.dll": {}
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Http.Polly/2.2.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Http": "2.2.0",
+          "Polly": "7.0.3",
+          "Polly.Extensions.Http": "2.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.Polly.dll": {}
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.Polly.dll": {}
+        }
+      },
       "Microsoft.Extensions.Identity.Core/2.0.4": {
         "dependencies": {
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "2.0.3",
@@ -2645,6 +2673,25 @@
         },
         "compile": {
           "lib/netstandard1.3/NuGet.Frameworks.dll": {}
+        }
+      },
+      "Polly/7.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Polly.dll": {}
+        },
+        "compile": {
+          "lib/netstandard2.0/Polly.dll": {}
+        }
+      },
+      "Polly.Extensions.Http/2.0.1": {
+        "dependencies": {
+          "Polly": "7.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Polly.Extensions.Http.dll": {}
+        },
+        "compile": {
+          "lib/netstandard2.0/Polly.Extensions.Http.dll": {}
         }
       },
       "Remotion.Linq/2.2.0": {
@@ -5644,6 +5691,20 @@
       "path": "microsoft.extensions.hosting.abstractions/2.0.3",
       "hashPath": "microsoft.extensions.hosting.abstractions.2.0.3.nupkg.sha512"
     },
+    "Microsoft.Extensions.Http/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Lkd3ivagTYH1klqHCZfawXNzFvrotAZIhqWL+zgyoPrPLpqR00dSaiAwZPlO3CtSOwRFTYkR4Vy/7fUw1+ugig==",
+      "path": "microsoft.extensions.http/2.2.0",
+      "hashPath": "microsoft.extensions.http.2.2.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Http.Polly/2.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uO1xOYZY3uRkQDkZSPUcnNivP+ie0X7DZO+A4dtEqZirbN9R+wnnpTpSRptTpVW9K0dWqpSOlueyhvVJMjg7Kg==",
+      "path": "microsoft.extensions.http.polly/2.2.0",
+      "hashPath": "microsoft.extensions.http.polly.2.2.0.nupkg.sha512"
+    },
     "Microsoft.Extensions.Identity.Core/2.0.4": {
       "type": "package",
       "serviceable": true,
@@ -5944,6 +6005,20 @@
       "sha512": "sha512-WCkN68c8q+USG+Ot1MmBDH+9DUo5dk7UB0QDMiwCYhrH7ZoFLKFGGNzJ8C3LTR1DvB1LW9BOxKeznnZznKiCTA==",
       "path": "nuget.frameworks/4.0.0",
       "hashPath": "nuget.frameworks.4.0.0.nupkg.sha512"
+    },
+    "Polly/7.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fmEG7DpvsXocBG0QQexqA6pcj6DrPNwq2yHSrFJ/ibufThkpt7wlWV9C0pRP1ntfKTo/qwGikxGRHy3G7ojCig==",
+      "path": "polly/7.0.3",
+      "hashPath": "polly.7.0.3.nupkg.sha512"
+    },
+    "Polly.Extensions.Http/2.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PkvdqDMfyFN1Qq9InaSrslPZxxz72LrS28y4uzY6SkTwm7xVld8IT6DTwZtx2tJSqFDIL6pjwfeTcnKgMekaiw==",
+      "path": "polly.extensions.http/2.0.1",
+      "hashPath": "polly.extensions.http.2.0.1.nupkg.sha512"
     },
     "Remotion.Linq/2.2.0": {
       "type": "package",
