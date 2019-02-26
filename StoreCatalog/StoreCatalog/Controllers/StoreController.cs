@@ -1,6 +1,8 @@
 ﻿using GeekBurger.StoreCatalog.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Polly.Registry;
 using System;
 
 namespace GeekBurger.StoreCatalog.Controllers
@@ -9,8 +11,12 @@ namespace GeekBurger.StoreCatalog.Controllers
     {
         private IConfiguration _configuration;
         private IHealthCheck _healthCheck;
+        private readonly ILogger _logger;
+        private readonly IReadOnlyPolicyRegistry<string> _policyRegistry;
 
-        public StoreController(IConfiguration configuration, IHealthCheck healthCheck)
+        public StoreController(
+            IConfiguration configuration, 
+            IHealthCheck healthCheck)
         {
             _configuration = configuration;
             _healthCheck = healthCheck;
