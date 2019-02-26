@@ -76,8 +76,9 @@ namespace GeekBurger.StoreCatalog.Service.GetProductionAreaChanged
             var productionChangedJson = JsonConvert.DeserializeObject<ProductionToGet>(productionChangedString);
 
             var optionsBuilder = new DbContextOptionsBuilder<StoreCatalogContext>();
-            optionsBuilder.UseInMemoryDatabase("geekburger-storecatalog");
-            using (var db = new StoreCatalogContext(optionsBuilder.Options))
+            var options = optionsBuilder.UseInMemoryDatabase("geekburger-storecatalog").Options;
+
+            using (var db = new StoreCatalogContext(options))
             {
                 var sc = new StoreCatalogRepository(db, _configuration);
                 sc.UpsertProduction(productionChangedJson);

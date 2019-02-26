@@ -50,10 +50,6 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
                     .Create();
 
             ReceiveMessages();
-
-
-
-            
         }
 
         private static async void ReceiveMessages()
@@ -84,11 +80,9 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
             var productChangesJson = JsonConvert.DeserializeObject<ProductToGet>(productJson);
 
             var optionsBuilder = new DbContextOptionsBuilder<StoreCatalogContext>();
-            optionsBuilder.UseInMemoryDatabase("geekburger-storecatalog");
-            using (var db = new StoreCatalogContext(optionsBuilder.Options))
+            var options = optionsBuilder.UseInMemoryDatabase("geekburger-storecatalog").Options;
+            using (var db = new StoreCatalogContext(options))
             {
-                var teste = db.Products.Count();
-
                 var sc = new StoreCatalogRepository(db, _configuration);
                 sc.UpsertProduct(productChangesJson);
             }

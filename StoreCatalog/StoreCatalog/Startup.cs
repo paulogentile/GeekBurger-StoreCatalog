@@ -8,6 +8,8 @@ using GeekBurger.StoreCatalog.Helper;
 using GeekBurger.StoreCatalog.Repository;
 using GeekBurger.StoreCatalog.Repository.Interfaces;
 using GeekBurger.StoreCatalog.Service;
+using GeekBurger.StoreCatalog.Service.GetProductChanged;
+using GeekBurger.StoreCatalog.Service.GetProductionAreaChanged;
 using GeekBurger.StoreCatalog.Service.UserWithLessOffer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,6 +61,7 @@ namespace GeekBurger.StoreCatalog
 
             services.AddAutoMapper();
 
+
             // Configura Banco de Dados em Memoria
             services.AddDbContext<StoreCatalogContext>(o => o.UseInMemoryDatabase("geekburger-storecatalog"));
 
@@ -68,12 +71,11 @@ namespace GeekBurger.StoreCatalog
             services.AddScoped<IStoreCatalogReadyService, StoreCatalogReadyService>();
             services.AddScoped<IGetProducts, GetProducts>();
             services.AddScoped<IGetProductions, GetProductions>();
-
             services.AddScoped<IAppInnit, AppInnit>();
-
             services.AddScoped<IUserWithLessOffer, UserWithLessOffer>();
 
-
+            services.AddSingleton<IGetProductChangedService, GetProductChangedService>();
+            services.AddSingleton<IGetProductionAreaChangedService, GetProductionAreaChangedService>();
             services.AddSingleton<IHealthCheck, HealthCheck>();
         }
 
