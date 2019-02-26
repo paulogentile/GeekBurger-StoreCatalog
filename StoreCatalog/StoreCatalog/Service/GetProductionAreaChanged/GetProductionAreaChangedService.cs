@@ -43,14 +43,14 @@ namespace GeekBurger.StoreCatalog.Service.GetProductionAreaChanged
 
             var topic = serviceBusNamespace.Topics.GetByName(TopicName);
 
-            await topic.Subscriptions.DeleteByNameAsync(SubscriptionName);
+            await topic.Subscriptions.DeleteByNameAsync(SubscriptionName); 
 
             if (!topic.Subscriptions.List()
                    .Any(subscription => subscription.Name
                        .Equals(SubscriptionName, StringComparison.InvariantCultureIgnoreCase)))
                 topic.Subscriptions
                     .Define(SubscriptionName)
-                    .Create();
+                    .Create(); 
 
             ReceiveMessages();
         }

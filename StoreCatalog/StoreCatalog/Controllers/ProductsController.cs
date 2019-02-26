@@ -3,6 +3,7 @@ using GeekBurger.StoreCatalog.Repository.Interfaces;
 using GeekBurger.StoreCatalog.Service.UserWithLessOffer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
 
 namespace GeekBurger.StoreCatalog.Controllers
@@ -33,23 +34,30 @@ namespace GeekBurger.StoreCatalog.Controllers
         [HttpGet]
         public IActionResult GetProducts(QueryProductByStore query)
         {
+            if (query == null || query.UserId == Guid.Empty) return BadRequest();            
+
             if (_healthCheck.Healthy)
-            {
+            { 
                 var areas = _storeCatalogRepository.GetAreas();
                 var filteredProducts = _storeCatalogRepository.GetProductsByRestrictions(query.Restrictions);
 
+                if (filteredProducts == null) return NotFound();
+
                 //any area allowed for this user
                 var allowedAreas = areas.Where(area =>
-                    query.Restrictions.All(restriction => area.Restrictions.Any(c => c.Name.Contains(restriction))));
+                    query.Restrictions.All(restriction => area.Restrictions.Any(c => c.Name.Contains(restriction))));                                
 
                 //products that can be produced in allowed areas for this user
                 var allowedProducts = filteredProducts.Where(product => product
                     //all ingredients from this product are not in the restriction list of at least one allowed area
                     .Ingredients.All(ingredient => allowedAreas.Any(area => !area.Restrictions.Any(c => c.Name.Contains(ingredient.Name)))));
 
+                if (allowedProducts == null) return NotFound();
+
                 // Envia a mensagem UserWithLessOffer se o usuário tiver menos de 4 resultados
                 if (allowedProducts.Count() < 4)
                     _userWithLessOffer.SendUserWithLessOffer(query.UserId, query.Restrictions);
+               
 
                 return Ok(allowedProducts.Select(p => new ProductByStoreToGet
                 {
@@ -60,6 +68,8 @@ namespace GeekBurger.StoreCatalog.Controllers
                     Price = p.Price,
                     StoreId = p.StoreId
                 }));
+
+                
             }
             else
                 return StatusCode(503);
