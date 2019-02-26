@@ -2,6 +2,7 @@
 using GeekBurger.StoreCatalog.Repository;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -81,7 +82,7 @@ namespace GeekBurger.StoreCatalog.Service.GetProductChanged
             var productChangesJson = JsonConvert.DeserializeObject<ProductToGet>(productJson);
 
             var optionsBuilder = new DbContextOptionsBuilder<StoreCatalogContext>();
-            var options = optionsBuilder.UseInMemoryDatabase("geekburger-storecatalog").Options;
+            var options = optionsBuilder.UseSqlServer("Server=tcp:geekburguer.database.windows.net,1433;Initial Catalog=GeekBurger;Persist Security Info=False;User ID=StoreCatalog;Password=qwer1234!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;").Options;
             using (var db = new StoreCatalogContext(options))
             {
                 var sc = new StoreCatalogRepository(db, _configuration);

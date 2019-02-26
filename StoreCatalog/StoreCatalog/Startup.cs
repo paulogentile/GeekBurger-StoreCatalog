@@ -15,6 +15,7 @@ using GeekBurger.StoreCatalog.Service.UserWithLessOffer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -64,7 +65,8 @@ namespace GeekBurger.StoreCatalog
 
 
             // Configura Banco de Dados em Memoria
-            services.AddDbContext<StoreCatalogContext>(o => o.UseInMemoryDatabase("geekburger-storecatalog"));
+
+            services.AddDbContext<StoreCatalogContext>(o => o.UseSqlServer("Server=tcp:geekburguer.database.windows.net,1433;Initial Catalog=GeekBurger;Persist Security Info=False;User ID=StoreCatalog;Password=qwer1234!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
 
             services.AddScoped<IStoreCatalogRepository, StoreCatalogRepository>();
 
@@ -78,7 +80,7 @@ namespace GeekBurger.StoreCatalog
             services.AddSingleton<IGetProductChangedService, GetProductChangedService>();
             services.AddSingleton<IGetProductionAreaChangedService, GetProductionAreaChangedService>();
 
-            services.AddPollyPolicies();
+            //services.AddPollyPolicies();
             services.AddScoped<IAppInnit, AppInnit>();
         }
 
